@@ -14,11 +14,23 @@ class BlogType(models.Model):
 
 
 class Blog(models.Model):
+    BLOG_CHOICES = (
+        ("F", "Food"),
+        ("T", "Travel"),
+        ("H", "Health"),
+        ("L", "Lifestyle"),
+        ("FB", "Fashion & Beauty"),
+        ("PH", "Photography"),
+        ("P", "Personal"),
+        ("DC", "DIY Craft")
+
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4(),
                           help_text='Unique ID for this particular blog')
     title = models.CharField(max_length=200)
     writer = models.ForeignKey('Writer', on_delete=models.SET_NULL, null=True)
-    blog_type = models.ManyToManyField(BlogType, help_text='Select a type for this blog')
+    blog_type = models.CharField(max_length=2, choices=BLOG_CHOICES, default="P",
+                                 help_text='Select a type for this blog')
     description = models.TextField(max_length=1000, help_text='Enter the description of this blog')
 
     def __str__(self):
