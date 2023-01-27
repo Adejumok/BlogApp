@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Writer List</h1>
+  {% if writer_list %}
+  <ul>
+    {% for writer in writer_list %}
+      <li>
+        <p><strong>Writer:</strong> <a href="{{ blog.writer.get_absolute_url }}">{{ blog.writer }}</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no writers for this blog.</p>
+  {% endif %}
+{% endblock %}

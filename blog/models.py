@@ -58,11 +58,11 @@ class Writer(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
 
-    class Meta:
-        ordering = ['first_name', 'last_name']
-
     def get_absolute_url(self):
         return reverse('writer-detail', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ['first_name']

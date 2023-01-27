@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Blog.Go Home</h1>
+  <p>Welcome to Blog.Go, a website developed by <em>Stupendous Jummie</em>!</p>
+  <h2>Dynamic content</h2>
+  <p>The blog has the following record counts:</p>
+  <ul>
+    <li><strong>Blogs:</strong> {{ num_blogs }}</li>
+    <li><strong>Comments:</strong> {{ num_comments }}</li>
+    <li><strong>Travel Blogs:</strong> {{ num_blogs_travel }}</li>
+    <li><strong>Writers:</strong> {{ num_writers }}</li>
+  </ul>
+{% endblock %}
