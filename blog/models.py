@@ -3,9 +3,9 @@ import uuid
 
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
-# Create your models here.
 class BlogType(models.Model):
     name = models.CharField(max_length=200, help_text='Enter a blog type(e.g. Celebrity Gist)')
 
@@ -48,6 +48,35 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['written_date']
+
+    def __str__(self):
+        return f'{self.id} ({self.blog.title})'
+
+
+class BlogInstance(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular blog across '
+                                                                          'whole blog website')
+    blog = models.ForeignKey('Blog', on_delete=models.RESTRICT, null=True)
+    imprint = models.CharField(max_length=200)
+    due_back = models.DateField(null=True, blank=True)
+
+    SUBSCRIPTION_STATUS = (
+        ("F", "Freemium"),
+        ("P", "Pay-As-You-Go"),
+        ("FU", "Fixed Usage"),
+        ('U', 'Unlimited'),
+    )
+
+    status = models.CharField(
+        max_length=2,
+        choices=SUBSCRIPTION_STATUS,
+        blank=True,
+        default="F",
+        help_text='Blog subscription',
+    )
+
+    class Meta:
+        ordering = ['due_back']
 
     def __str__(self):
         return f'{self.id} ({self.blog.title})'

@@ -8,7 +8,9 @@
   <ul>
     <li><strong>Blogs:</strong> {{ num_blogs }}</li>
     <li><strong>Comments:</strong> {{ num_comments }}</li>
-    <li><strong>Travel Blogs:</strong> {{ num_blogs_travel }}</li>
+      <li><strong>Copies:</strong> {{ num_instances }}</li>
+    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
     <li><strong>Writers:</strong> {{ num_writers }}</li>
   </ul>
+    <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 {% endblock %}

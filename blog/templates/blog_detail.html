@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ blog.title }}</h1>
+
+  <p><strong>Writer:</strong> <a href="{{ blog.writer.get_absolute_url }}">{{ blog.writer }}</a></p>
+  <p><strong>Description:</strong> {{ blog.description }}</p>
+  <p><strong>Blog Type:</strong> {{ blog.blog_type.all|join:", " }}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copies</h4>
+
+    {% for copy in blog.bloginstance_set.all %}
+      <hr>
+      <p class="{% if copy.status == 'F' %}text-success{% elif copy.status == 'P' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }}
+      </p>
+      {% if copy.status != 'F' %}
+        <p><strong>Due for payment:</strong> {{ copy.due_back }}</p>
+      {% endif %}
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
