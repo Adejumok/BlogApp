@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, datetime
 import uuid
 
 from django.db import models
@@ -25,13 +25,11 @@ class Blog(models.Model):
         ("DC", "DIY Craft")
 
     )
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4(),
-                          help_text='Unique ID for this particular blog')
     title = models.CharField(max_length=200)
-    writer = models.ForeignKey('Writer', on_delete=models.SET_NULL, null=True)
-    blog_type = models.CharField(max_length=2, choices=BLOG_CHOICES, default="P",
-                                 help_text='Select a type for this blog')
-    description = models.TextField(max_length=1000, help_text='Enter the description of this blog')
+    description = models.TextField()
+    writer = models.ForeignKey('Writer', models.DO_NOTHING, blank=True, null=True)
+    blog_type = models.CharField(max_length=2, choices=BLOG_CHOICES)
+    id = models.CharField(primary_key=True, max_length=32)
 
     def __str__(self):
         return self.title
@@ -43,8 +41,8 @@ class Blog(models.Model):
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4(),
                           help_text='Unique ID for this particular comment')
-    blog = models.ForeignKey(Blog, on_delete=models.RESTRICT, null=True)
-    written_date = models.DateField(datetime.datetime, auto_now=True, null=True, blank=True)
+    blog = models.ForeignKey(Blog, on_delete=models.DO_NOTHING, null=True)
+    written_date = models.DateField(datetime, auto_now=True, null=True, blank=True)
 
     class Meta:
         ordering = ['written_date']
@@ -54,11 +52,15 @@ class Comment(models.Model):
 
 
 class BlogInstance(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular blog across '
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular blog '
+                                                                          'instance across'
                                                                           'whole blog website')
     blog = models.ForeignKey('Blog', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    subscriber = models.ForeignKey(User, on_delete=models.SET_NULL,
+                                   null=True, blank=True)
+    permissions = (("can_mark_subscribed", "Set blog as subscribed"),)
 
     SUBSCRIPTION_STATUS = (
         ("F", "Freemium"),
@@ -74,6 +76,10 @@ class BlogInstance(models.Model):
         default="F",
         help_text='Blog subscription',
     )
+
+    @property
+    def is_overdue(self):
+        return bool(self.due_back and date.today() > self.due_back)
 
     class Meta:
         ordering = ['due_back']

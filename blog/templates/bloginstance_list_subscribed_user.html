@@ -1,0 +1,19 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Subscribed blogs</h1>
+
+    {% if bloginstance_list %}
+    <ul>
+
+      {% for bloginst in bloginstance_list %}
+      <li class="{% if bloginst.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'blog-detail' bloginst.blog.pk %}">{{ bloginst.blog.title }}</a> ({{ bloginst.due_back }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no subscribed blog.</p>
+    {% endif %}
+{% endblock %}

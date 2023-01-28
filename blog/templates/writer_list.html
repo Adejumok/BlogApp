@@ -6,7 +6,7 @@
   <ul>
     {% for writer in writer_list %}
       <li>
-        <p><strong>Writer:</strong> <a href="{{ blog.writer.get_absolute_url }}">{{ blog.writer }}</a></p>
+        <p><strong>Writer:</strong> <a href="{{ blog.writer.get_absolute_url }}">{{ blog.writer }}</a>{{ writer.first_name}} {{ writer.last_name }}</p>
       </li>
     {% endfor %}
   </ul>
