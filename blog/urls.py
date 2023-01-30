@@ -9,5 +9,6 @@ urlpatterns = [
     path('blog/<str:pk>', views.BlogDetailView.as_view(), name='blog-detail'),
     path('writer/<str:pk>', views.WriterDetailView.as_view(), name='writer-detail'),
     path('subscribed-blogs/', views.SuscribeToBlogByUserListView.as_view(), name='subscribed'),
+    path('blog/<uuid:pk>/renew/', views.renew_blog_staff, name='renew-blog-staff'),
 ]
 

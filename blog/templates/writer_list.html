@@ -6,11 +6,11 @@
   <ul>
     {% for writer in writer_list %}
       <li>
-        <p><strong>Writer:</strong> <a href="{{ blog.writer.get_absolute_url }}">{{ blog.writer }}</a>{{ writer.first_name}} {{ writer.last_name }}</p>
+        <a href="{{ writer.get_absolute_url }}">{{ writer}}</a>
       </li>
     {% endfor %}
   </ul>
   {% else %}
-    <p>There are no writers for this blog.</p>
+    <p>There are no writers in this website.</p>
   {% endif %}
 {% endblock %}

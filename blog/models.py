@@ -92,6 +92,7 @@ class Writer(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
+    id = models.CharField(primary_key=True, max_length=32)
 
     def get_absolute_url(self):
         return reverse('writer-detail', args=[str(self.id)])
