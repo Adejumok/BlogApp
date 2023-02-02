@@ -1,7 +1,7 @@
 import datetime
 
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
@@ -9,10 +9,11 @@ from django.views import generic
 from blog.forms import RenewBlogForm
 from blog.models import Blog, Comment, Writer, BlogInstance
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
 
 @login_required
-# @permission_required('blog.can_mark_subscribed', raise_exception=True)
-# @permission_required('blog.can_edit')
 def index(request):
     num_blogs = Blog.objects.all().count()
     num_comments = Comment.objects.all().count()
@@ -80,14 +81,12 @@ class SuscribeToBlogByUserListView(LoginRequiredMixin, generic.ListView):
     template_name = 'bloginstance_list_subscribed_user.html'
     paginate_by = 10
 
-    # @permission_required('blog.can_mark_subscribed', raise_exception=True)
     def get_queryset(self):
         return BlogInstance.objects.filter(subscriber=self.request.user).filter(status__exact='P').order_by('due_back')
 
 
 @login_required
-@permission_required('blog.can_mark_subscribed', raise_exception=True)
-def renew_blog_staff(request, pk):
+def renew_subscription_staff(request, pk):
     blog_instance = get_object_or_404(BlogInstance, pk=pk)
 
     if request.method == 'POST':
@@ -102,11 +101,41 @@ def renew_blog_staff(request, pk):
 
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBlogForm(initial={'renewal_date': proposed_renewal_date})
+        form = RenewBlogForm(initial={'due_back': proposed_renewal_date})
 
     context = {
         'form': form,
         'blog_instance': blog_instance,
     }
 
-    return render(request, 'blog_renew_staff.html', context)
+    return render(request, 'subscription_renew_staff.html', context)
+
+
+class WriterCreate(CreateView):
+    model = Writer
+    fields = ['first_name', 'last_name', 'email']
+
+
+class WriterUpdate(UpdateView):
+    model = Writer
+    fields = '__all__'  # Not recommended (potential security issue if more fields added)
+
+
+class WriterDelete(DeleteView):
+    model = Writer
+    success_url = reverse_lazy('writer')
+
+
+class BLogCreate(CreateView):
+    model = Blog
+    fields = ['title', 'writer', 'description']
+
+
+class BlogUpdate(UpdateView):
+    model = Blog
+    fields = ['title', 'writer', 'description', 'blog_type']
+
+
+class BlogDelete(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('blog')

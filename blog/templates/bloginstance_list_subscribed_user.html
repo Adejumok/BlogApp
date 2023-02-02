@@ -9,6 +9,7 @@
       {% for bloginst in bloginstance_list %}
       <li class="{% if bloginst.is_overdue %}text-danger{% endif %}">
         <a href="{% url 'blog-detail' bloginst.blog.pk %}">{{ bloginst.blog.title }}</a> ({{ bloginst.due_back }})
+          {% if perms.blog.can_mark_returned %}- <a href="{% url 'renew-subscription-staff' bloginst.id %}">Renew</a>  {% endif %}
       </li>
       {% endfor %}
     </ul>
