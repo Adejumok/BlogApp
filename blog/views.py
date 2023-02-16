@@ -1,6 +1,6 @@
 import datetime
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -61,6 +61,7 @@ class WriterListView(LoginRequiredMixin, generic.ListView):
     redirect_field_name = 'redirect_to'
     queryset = Writer.objects.all()
     template_name = 'writer_list.html'
+    paginate_by = 10
 
 
 class BlogDetailView(generic.DetailView):
@@ -85,7 +86,7 @@ class SuscribeToBlogByUserListView(LoginRequiredMixin, generic.ListView):
         return BlogInstance.objects.filter(subscriber=self.request.user).filter(status__exact='P').order_by('due_back')
 
 
-@login_required
+@permission_required('blog.can_mark_returned')
 def renew_subscription_staff(request, pk):
     blog_instance = get_object_or_404(BlogInstance, pk=pk)
 
