@@ -1,10 +1,17 @@
 # BlogApp
 
-A simple blog website using Django framework that contain a list of Blog Posts, the Blog Author (blogger) detail page, a Blog Post detail page
+A simple blog website using Django framework that contain 
+1. A list of Blog Posts
+2. A List of all Bloggers 
+3. The Blog Author (blogger) detail page
+4. A Blog Post detail page
+5. A Comment form page
+6. User authentication pages
+7. Admin site	
 
 
 
-README.md Sample for a Django Project
+README.md Sample for a Blog Application Django Project
 ====================================
 
 This is a sample README file for a Django project. It provides a brief overview of the project and includes instructions on how to set it up and run it locally.
