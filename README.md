@@ -1,4 +1,5 @@
-# BlogApp
+BlogApp
+====================================
 
 A simple blog website using Django framework that contain 
 1. A list of Blog Posts
@@ -12,7 +13,7 @@ A simple blog website using Django framework that contain
 
 
 README.md Sample for a Blog Application Django Project
-====================================
+-----------------
 
 This is a sample README file for a Django project. It provides a brief overview of the project and includes instructions on how to set it up and run it locally.
 
