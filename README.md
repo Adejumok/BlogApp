@@ -1,7 +1,7 @@
 BlogApp
 ====================================
 
-A simple blog website using Django framework that contain 
+A simple blog website using Django framework that contain;
 1. A list of Blog Posts
 2. A List of all Bloggers 
 3. The Blog Author (blogger) detail page
