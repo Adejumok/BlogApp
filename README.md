@@ -111,4 +111,4 @@ If you would like to contribute to the project, please follow these guidelines:
 License
 -------
 
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+This project is licensed under the MIT License - see the `[LICENSE](https://github.com/Adejumok/BlogApp/blob/main/LICENSE)` file for details.
