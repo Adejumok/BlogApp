@@ -29,7 +29,7 @@ To set up and run the project locally, follow these instructions:
 
 1. Clone the project repository to your local machine.
    ```
-   git clone https://github.com/username/project.git
+   git clone https://github.com/Adejumok/BlogApp.git
    ```
 
 2. Create a virtual environment using virtualenv or conda.
